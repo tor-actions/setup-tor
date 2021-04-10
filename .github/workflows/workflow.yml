@@ -1,0 +1,38 @@
+name: Testing
+on:
+  push:
+    branches:
+      - '**'
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+jobs:
+  run:
+    name: Run
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup node 12
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12
+
+    - name: Install dependencies
+      run: yarn install
+
+    - name: Lint code base
+      run: yarn run format:check
+
+    - name: Run tests
+      run: yarn test
+
+    - name: Audit packages
+      run: yarn audit --level=high
+      if: matrix.operating-system == 'ubuntu-latest'

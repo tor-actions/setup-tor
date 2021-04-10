@@ -1,0 +1,49 @@
+{
+  "name": "setup-tor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "setup tor action",
+  "main": "lib/setup-tor.js",
+  "scripts": {
+    "build": "tsc && ncc build",
+    "format": "prettier --write **/*.ts",
+    "format:check": "prettier --check **/*.ts",
+    "lint": "eslint ./ --ext .ts",
+    "test": "jest --no-cache --coverage",
+    "prepub": "npm run format && npm run build && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wabarc/setup-tor.git"
+  },
+  "keywords": [
+    "actions",
+    "tor",
+    "setup"
+  ],
+  "author": "Wayback Archiver",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "@actions/http-client": "^1.0.6",
+    "@actions/io": "^1.0.2",
+    "@actions/tool-cache": "^1.5.5",
+    "semver": "^6.1.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.13",
+    "@types/node": "^12.0.4",
+    "@types/semver": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.21.0",
+    "@typescript-eslint/parser": "^4.21.0",
+    "@zeit/ncc": "^0.21.0",
+    "eslint": "^7.24.0",
+    "eslint-plugin-jest": "^24.3.4",
+    "jest": "^26.6.3",
+    "jest-circus": "^24.7.1",
+    "nock": "^10.0.6",
+    "prettier": "^1.17.1",
+    "ts-jest": "^26.5.4",
+    "typescript": "^3.8.3"
+  }
+}

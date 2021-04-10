@@ -1,0 +1,73 @@
+name: Validate
+on:
+  push:
+    branches:
+      - '**'
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+  schedule:
+    - cron: 0 0 * * *
+
+jobs:
+  local-cache:
+    name: Setup local-cache version
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+        tor: [0.4.5-rc7, 0.4.5.7]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Validate setup-tor ${{ matrix.tor }}
+        uses: ./
+        with:
+          tor-version: ${{ matrix.tor }}
+
+      - name: Verify tor
+        run: __tests__/verify-tor.sh ${{ matrix.tor }}
+        shell: bash
+
+  setup-versions-from-manifest:
+    name: Setup ${{ matrix.tor }} ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+        tor: [0.4.5-rc7, 0.4.5.7]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Validate setup-tor ${{ matrix.tor }}
+        uses: ./
+        with:
+          tor-version: ${{ matrix.tor }}
+      
+      - name: Verify tor
+        run: __tests__/verify-tor.sh ${{ matrix.tor }}
+        shell: bash
+
+  setup-default-version:
+    name: Setup Tor on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Validate setup-tor
+        uses: ./
+      
+      - name: Verify tor
+        run: __tests__/verify-tor.sh 'emit'
+        shell: bash

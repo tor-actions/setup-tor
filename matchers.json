@@ -1,0 +1,16 @@
+{
+    "problemMatcher": [
+        {
+            "owner": "tor",
+            "pattern": [
+                {
+                    "regexp": "^[tT]or(-)?.*(.dmg|tar.xz|.exe)",
+                    "file": 1,
+                    "line": 2,
+                    "column": 2,
+                    "message": 2
+                }
+            ]
+        }
+    ]
+}

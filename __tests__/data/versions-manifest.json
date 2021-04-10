@@ -1,0 +1,26 @@
+[
+  {
+    "version": "0.4.5-rc7",
+    "stable": true,
+    "files": [
+      {
+        "filename": "tor-darwin-amd64-0.4.5.7.tar.gz",
+        "arch": "x64",
+        "platform": "darwin",
+        "download_url": "https://github.com/tor-actions/versions/releases/download/0.4.5.7/tor-darwin-amd64-0.4.5.7.tar.gz"
+      },
+      {
+        "filename": "tor-linux-amd64-0.4.5.7.tar.gz",
+        "arch": "x64",
+        "platform": "linux",
+        "download_url": "https://github.com/tor-actions/versions/releases/download/0.4.5.7/tor-linux-amd64-0.4.5.7.tar.gz"
+      },
+      {
+        "filename": "tor-win32-0.4.5.7.tar.gz",
+        "arch": "x64",
+        "platform": "win32",
+        "download_url": "https://github.com/tor-actions/versions/releases/download/0.4.5.7/tor-win32-0.4.5.7.tar.gz"
+      }
+    ]
+  }
+]
