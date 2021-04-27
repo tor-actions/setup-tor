@@ -55,7 +55,7 @@ jobs:
         shell: bash
 
   setup-default-version:
-    name: Setup Tor on ${{ matrix.os }}
+    name: Setup Tor as default version on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -70,4 +70,36 @@ jobs:
       
       - name: Verify tor
         run: __tests__/verify-tor.sh 'emit'
+        shell: bash
+
+  setup-with-daemon:
+    name: Setup Tor with daemon
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Validate setup-tor
+        uses: ./
+        with:
+          daemon: true
+
+      - name: Verify tor
+        run: |
+          ps -aux | grep bin | grep tor || { echo 'Run Tor failed' 1>&2; exit 1; }
+          netstat -anp | grep :9050
+          lsof | grep 9050
+        shell: bash
+
+      - name: Validate setup-tor
+        uses: ./
+        with:
+          daemon: true
+          port: 12345
+
+      - name: Verify tor
+        run: |
+          ps -aux | grep bin | grep tor || { echo 'Run Tor failed' 1>&2; exit 1; }
+          netstat -anp | grep :12345
+          lsof | grep 12345
         shell: bash

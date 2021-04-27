@@ -49,6 +49,18 @@ export async function run(): Promise<void> {
     const torPath = await io.which('tor');
     const torVersion = (cp.execSync(`${torPath} --version`) || '').toString();
     core.info(torVersion);
+
+    // run tor as daemon program
+    const daemon =
+      (core.getInput('daemon') || 'false').toUpperCase() === 'TRUE';
+    if (daemon) {
+      const port = core.getInput('port') || '9050';
+      const child = cp.spawn(`${torPath}`, ['--SocksPort', `${port}`], {
+        detached: true,
+        stdio: 'ignore'
+      });
+      child.unref();
+    }
   } catch (error) {
     core.setFailed(error.message);
   }
