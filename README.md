@@ -1,13 +1,13 @@
 # setup-tor
 
-[![build-test](https://github.com/wabarc/setup-tor/actions/workflows/workflow.yml/badge.svg)](https://github.com/wabarc/setup-tor/actions/workflows/workflow.yml)
+[![Validate](https://github.com/tor-actions/setup-tor/actions/workflows/versions.yml/badge.svg)](https://github.com/tor-actions/setup-tor/actions/workflows/versions.yml)
 
 This action sets up a tor environment for use in actions by:
 
 - optionally downloading and caching a version of Tor by version and adding to PATH
 - registering problem matchers for error output
 
-# Usage
+## Usage
 
 See [action.yml](action.yml)
 
@@ -39,11 +39,22 @@ jobs:
       - run: tor
 ```
 
-# License
+Run as daemon and set specific port (default as `9050`):
+```yaml
+steps:
+- uses: actions/checkout@master
+- uses: tor-actions/setup-tor@main
+  with:
+    tor-version: '0.4.5.7' # The Tor version to download (if necessary) and use.
+    daemon: true
+    port: 12345
+```
+
+## License
 
 The scripts and documentation in this project are released under the [MIT License](LICENSE)
 
-# Contributions
+## Contributions
 
 Contributions are welcome!  See [Contributor's Guide](docs/contributors.md)
 
