@@ -1,20 +1,31 @@
 name: Licensed
 
 on:
-  push: {branches: main}
-  pull_request: {branches: main}
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
 
 jobs:
-  test:
+  licensed:
     runs-on: ubuntu-latest
     name: Check licenses
     steps:
-      - uses: actions/checkout@v2
-      - run: yarn
-      - name: Install licensed
-        run: |
-          cd $RUNNER_TEMP
-          curl -Lfs -o licensed.tar.gz https://github.com/github/licensed/releases/download/2.12.2/licensed-2.12.2-linux-x64.tar.gz
-          sudo tar -xzf licensed.tar.gz
-          sudo mv licensed /usr/local/bin/licensed
-      - run: licensed status
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: npm install --production
+
+    - name: Set up licensed
+      uses: jonabc/setup-licensed@v1
+      with:
+        version: '2.x'
+
+    - name: List licenses
+      run: licensed list
+
+    - name: Check license status
+      run: licensed status
