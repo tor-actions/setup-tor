@@ -1,6 +1,9 @@
 name: 'Setup Tor environment'
 description: 'Setup a Tor environment and add it to the PATH'
 author: 'warcbot'
+branding:
+  color: 'gray-dark'
+  icon: 'activity'
 inputs: 
   tor-version:
     description: 'The Tor version to download (if necessary) and use. Examples: 0.4.5.7, 0.4.5-rc7'
