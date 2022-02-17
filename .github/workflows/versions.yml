@@ -103,3 +103,32 @@ jobs:
           netstat -anp | grep :12345
           lsof | grep 12345
         shell: bash
+
+  setup-with-config:
+    name: Setup Tor with a configuration input on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Validate setup-tor
+        uses: ./
+        id: setup-tor-with-config
+        with:
+          config: |
+            ControlPort 9051
+            CookieAuthentication 0
+
+      - name: Verify tor
+        run: __tests__/verify-tor.sh 'emit'
+        shell: bash
+
+      - name: Config was not configured
+        if: ${{ ! contains(steps.setup-tor-with-config.outputs.config-path, 'setup-tor-conf') }}
+        run: |
+          echo "echo "::error::No config path was configured, config path set to: ${{ steps.setup-tor-with-config.outputs.config-path }}"
+          exit 1
