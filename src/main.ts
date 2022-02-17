@@ -4,6 +4,7 @@ import * as installer from './installer';
 import path from 'path';
 import cp from 'child_process';
 import fs from 'fs';
+import {tmpdir} from 'os';
 import {URL} from 'url';
 
 export async function run(): Promise<void> {
@@ -50,15 +51,34 @@ export async function run(): Promise<void> {
     const torVersion = (cp.execSync(`${torPath} --version`) || '').toString();
     core.info(torVersion);
 
+    // add configuration
+    const config = core.getInput('config') || undefined;
+    let configPath = core.getInput('config-path') || undefined;
+    let configFlag: Array<string> = [];
+    if (configPath || config) {
+      configPath = configPath || `${tmpdir()}/setup-tor-config`;
+      if (!fs.existsSync(configPath)) {
+        fs.writeFileSync(configPath, config ?? '');
+      }
+      core.info(`Using Tor configuration at path: ${configPath}`);
+      configFlag = ['-f', configPath];
+      core.setOutput('config-path', configPath);
+    }
+
     // run tor as daemon program
     const daemon =
       (core.getInput('daemon') || 'false').toUpperCase() === 'TRUE';
     if (daemon) {
       const port = core.getInput('port') || '9050';
-      const child = cp.spawn(`${torPath}`, ['--SocksPort', `${port}`], {
-        detached: true,
-        stdio: 'ignore'
-      });
+      const child = cp.spawn(
+        `${torPath}`,
+        ['--SocksPort', `${port}`].concat(configFlag),
+        {
+          detached: true,
+          stdio: 'ignore'
+        }
+      );
+      core.info(`Started Tor as daemon with PID: ${child.pid}`);
       child.unref();
     }
   } catch (error) {
