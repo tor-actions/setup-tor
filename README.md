@@ -14,7 +14,7 @@ See [action.yml](action.yml)
 Basic:
 ```yaml
 steps:
-- uses: actions/checkout@master
+- uses: actions/checkout@main
 - uses: tor-actions/setup-tor@main
   with:
     tor-version: '0.4.5.7' # The Tor version to download (if necessary) and use.
@@ -42,7 +42,7 @@ jobs:
 Run as daemon and set specific port (default as `9050`):
 ```yaml
 steps:
-- uses: actions/checkout@master
+- uses: actions/checkout@main
 - uses: tor-actions/setup-tor@main
   with:
     tor-version: '0.4.5.7' # The Tor version to download (if necessary) and use.
