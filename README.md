@@ -50,6 +50,26 @@ steps:
     port: 12345
 ```
 
+Run with a custom configuration file:
+```yaml
+steps:
+- uses: actions/checkout@main
+- uses: tor-actions/setup-tor@main
+  with:
+    config-path: ${{ github.workspace }}/.github/.torrc
+```
+
+Run with a custom configuration:
+```yaml
+steps:
+- uses: actions/checkout@main
+- uses: tor-actions/setup-tor@main
+  with:
+    config: |
+      ControlPort 9051
+      CookieAuthentication 0
+```
+
 ## License
 
 The scripts and documentation in this project are released under the [MIT License](LICENSE)
