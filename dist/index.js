@@ -2584,6 +2584,7 @@ const installer = __importStar(__webpack_require__(749));
 const path_1 = __importDefault(__webpack_require__(622));
 const child_process_1 = __importDefault(__webpack_require__(129));
 const fs_1 = __importDefault(__webpack_require__(747));
+const crypto_1 = __webpack_require__(417);
 const os_1 = __webpack_require__(87);
 const url_1 = __webpack_require__(835);
 function run() {
@@ -2627,7 +2628,9 @@ function run() {
             let configPath = core.getInput('config-path') || undefined;
             let configFlag = [];
             if (configPath || config) {
-                configPath = configPath || `${os_1.tmpdir()}/setup-tor-config`;
+                configPath =
+                    configPath ||
+                        `${os_1.tmpdir()}/setup-tor-conf_${crypto_1.randomBytes(16).toString('hex')}`;
                 if (!fs_1.default.existsSync(configPath)) {
                     fs_1.default.writeFileSync(configPath, config !== null && config !== void 0 ? config : '');
                 }

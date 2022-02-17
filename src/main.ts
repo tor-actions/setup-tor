@@ -4,6 +4,7 @@ import * as installer from './installer';
 import path from 'path';
 import cp from 'child_process';
 import fs from 'fs';
+import {randomBytes} from 'crypto';
 import {tmpdir} from 'os';
 import {URL} from 'url';
 
@@ -56,7 +57,9 @@ export async function run(): Promise<void> {
     let configPath = core.getInput('config-path') || undefined;
     let configFlag: Array<string> = [];
     if (configPath || config) {
-      configPath = configPath || `${tmpdir()}/setup-tor-config`;
+      configPath =
+        configPath ||
+        `${tmpdir()}/setup-tor-conf_${randomBytes(16).toString('hex')}`;
       if (!fs.existsSync(configPath)) {
         fs.writeFileSync(configPath, config ?? '');
       }
