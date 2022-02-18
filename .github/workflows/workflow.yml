@@ -36,3 +36,4 @@ jobs:
     - name: Audit packages
       run: yarn audit --level=high
       if: matrix.operating-system == 'ubuntu-latest'
+      continue-on-error: true
